@@ -124,6 +124,45 @@ php artisan tinker
 User::where('email', 'correo@ejemplo.com')->update(['role' => 'admin'])
 ```
 
+## Carrito de Compras
+
+El sistema incluye un completo carrito de compras con las siguientes características:
+
+### Funcionalidades del Carrito
+
+- **Persistencia dual**: Funciona tanto para usuarios autenticados (almacenamiento en base de datos) como para visitantes (almacenamiento en sesión)
+- **Fusión automática**: Al iniciar sesión, los productos del carrito de sesión se transfieren automáticamente al carrito del usuario
+- **Gestión de productos**: Permite añadir, actualizar cantidades y eliminar productos
+- **Cálculos automáticos**: Calcula subtotales por ítem, subtotal del carrito, impuestos y total
+
+### Estructura de Datos
+
+- **Cart**: Modelo principal que almacena información del carrito
+  - Asociado a un usuario (para usuarios autenticados)
+  - Asociado a un ID de sesión (para visitantes)
+  - Almacena la tasa de impuesto aplicable
+  
+- **CartItem**: Productos específicos en el carrito
+  - Cantidad de cada producto
+  - Precio al momento de añadir (para mantener consistencia ante cambios de precio)
+
+### Interfaz de Usuario
+
+- Indicador visual en la barra de navegación que muestra la cantidad de productos en el carrito
+- Vista detallada del carrito con imágenes de productos, precios, cantidades y subtotales
+- Selector de cantidad que actualiza automáticamente al cambiar
+- Cálculo en tiempo real de subtotales, impuestos y total de la compra
+
+### Pruebas
+
+El sistema de carrito está completamente probado mediante tests que verifican:
+- Adición de productos por usuarios autenticados y visitantes
+- Actualización de cantidades
+- Eliminación de productos individuales
+- Vaciado completo del carrito
+- Cálculo correcto de subtotales, impuestos y totales
+- Fusión de carritos al iniciar sesión
+
 ## Pruebas
 
 El proyecto incluye pruebas unitarias y funcionales que verifican que todas las funcionalidades están trabajando correctamente:
