@@ -16,7 +16,7 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    /** @test */
+    #[Test]
     public function it_can_display_index_page()
     {
         $product = Product::factory()->create();
@@ -27,7 +27,7 @@ class ProductControllerTest extends TestCase
         $response->assertSee($product->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_products_by_name()
     {
         $product1 = Product::factory()->create(['name' => 'Special Product']);
@@ -40,7 +40,7 @@ class ProductControllerTest extends TestCase
         $response->assertDontSee($product2->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_products_by_category()
     {
         $category1 = Category::factory()->create();
@@ -56,7 +56,7 @@ class ProductControllerTest extends TestCase
         $response->assertDontSee($product2->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_display_create_form()
     {
         // Crear y autenticar un usuario admin
@@ -68,7 +68,7 @@ class ProductControllerTest extends TestCase
         $response->assertSee('Crear Producto');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_store_a_product()
     {
         // Crear y autenticar un usuario admin
@@ -110,7 +110,7 @@ class ProductControllerTest extends TestCase
         $response->assertRedirect(route('products.index'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_show_a_product()
     {
         $product = Product::factory()->create();
@@ -122,7 +122,7 @@ class ProductControllerTest extends TestCase
         $response->assertSee($product->description);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_display_edit_form()
     {
         // Crear y autenticar un usuario admin
@@ -137,7 +137,7 @@ class ProductControllerTest extends TestCase
         $response->assertSee($product->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_a_product()
     {
         // Crear y autenticar un usuario admin
@@ -167,7 +167,7 @@ class ProductControllerTest extends TestCase
         $response->assertRedirect(route('products.index'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_delete_a_product()
     {
         // Crear y autenticar un usuario admin

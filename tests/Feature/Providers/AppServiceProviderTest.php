@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class AppServiceProviderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_uses_tailwind_for_pagination()
     {
         // Verificar que la app está configurada para usar Tailwind para la paginación

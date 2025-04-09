@@ -12,7 +12,7 @@ class ProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_has_expected_fillable_attributes()
     {
         $product = new Product();
@@ -29,7 +29,7 @@ class ProductTest extends TestCase
         ], $product->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_belongs_to_a_category()
     {
         $category = Category::factory()->create();
@@ -39,7 +39,7 @@ class ProductTest extends TestCase
         $this->assertEquals($category->id, $product->category->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_have_many_tags()
     {
         $product = Product::factory()->create();
@@ -51,7 +51,7 @@ class ProductTest extends TestCase
         $this->assertInstanceOf(Tag::class, $product->tags->first());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_determine_if_it_has_image()
     {
         $productWithImage = Product::factory()->create(['image' => 'products/image.jpg']);
