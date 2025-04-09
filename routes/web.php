@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas públicas
@@ -10,6 +11,13 @@ Route::get('/', function () {
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+// Rutas para el carrito de compras
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'addItem'])->name('cart.add');
+Route::put('/cart/update/{cartItem}', [CartController::class, 'updateItem'])->name('cart.update');
+Route::delete('/cart/remove/{cartItem}', [CartController::class, 'removeItem'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 // Rutas que requieren autenticación
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,4 +41,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

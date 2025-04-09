@@ -45,8 +45,10 @@
 
                         <!-- Authentication Links -->
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <x-cart-button />
+
                             @guest
-                                <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Iniciar Sesión</a>
+                                <a href="{{ route('login') }}" class="text-sm text-gray-700 underline ml-4">Iniciar Sesión</a>
                                 <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Registrarse</a>
                             @else
                                 <!-- Settings Dropdown -->
