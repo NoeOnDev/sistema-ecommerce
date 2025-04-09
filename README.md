@@ -163,6 +163,42 @@ El sistema de carrito está completamente probado mediante tests que verifican:
 - Cálculo correcto de subtotales, impuestos y totales
 - Fusión de carritos al iniciar sesión
 
+## Proceso de Checkout
+
+El sistema incluye un flujo completo de checkout que permite a los usuarios finalizar sus compras de manera intuitiva:
+
+### Arquitectura del Checkout
+
+El proceso de checkout está diseñado como un flujo de tres pasos:
+
+1. **Revisión del Carrito**: Visualización detallada de los productos seleccionados, cantidades, precios y totales.
+2. **Información de Envío**: Formulario para los datos de entrega del pedido.
+3. **Método de Pago**: Opciones de pago y finalización de la compra.
+
+### Características del Checkout
+
+- **Experiencia de usuario fluida**: Navegación clara entre pasos con indicadores visuales.
+- **Validación en cada paso**: Verificaciones para asegurar que los datos necesarios están completos.
+- **Resumen del pedido**: Mostrado en cada paso para que el usuario siempre tenga presente su compra.
+- **Múltiples métodos de pago**: Soporte para tarjetas de crédito, PayPal y transferencias bancarias.
+- **Simulación de pago**: Sistema que simula el procesamiento del pago para fines de demostración.
+- **Confirmación inmediata**: Página de confirmación con detalles completos del pedido.
+
+### Seguridad y Validación
+
+- Verificaciones para prevenir acceso no autorizado a las páginas de checkout
+- Validación de stock en tiempo real antes de confirmar el pedido
+- Protección de rutas sensibles mediante middleware de autenticación
+- Transacciones de base de datos para garantizar la integridad de los datos del pedido
+
+### Proceso de Compra
+
+1. El usuario revisa los productos en su carrito
+2. Proporciona la información de envío
+3. Selecciona un método de pago e ingresa los datos necesarios
+4. Recibe confirmación de su pedido
+5. El sistema actualiza automáticamente el inventario
+
 ## Pruebas
 
 El proyecto incluye pruebas unitarias y funcionales que verifican que todas las funcionalidades están trabajando correctamente:
