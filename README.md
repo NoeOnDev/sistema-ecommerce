@@ -199,6 +199,50 @@ El proceso de checkout está diseñado como un flujo de tres pasos:
 4. Recibe confirmación de su pedido
 5. El sistema actualiza automáticamente el inventario
 
+## Seguridad y Auditoría
+
+El sistema implementa un protocolo AAA completo:
+
+### Autenticación
+
+- Sistema de login basado en Laravel Breeze
+- Verificación de correo electrónico para nuevos registros
+- Protección contra ataques de fuerza bruta
+
+### Autorización
+
+- Sistema de roles (admin, cliente)
+- Middleware personalizado para verificación de roles (`role:admin`)
+- Protección de rutas sensibles
+
+### Auditoría
+
+El sistema cuenta con un mecanismo robusto de auditoría para rastrear acciones críticas:
+
+- **Canal dedicado**: Los eventos de auditoría se almacenan en archivos separados (`storage/logs/audit/audit.log`)
+- **Rotación diaria**: Los logs se mantienen por 30 días y se rotan diariamente
+- **Eventos monitoreados**:
+  - Cambios en precios de productos
+  - Modificaciones en niveles de inventario
+  - Creación y eliminación de productos
+  - Procesamiento de órdenes y pagos
+  - Errores en transacciones críticas
+
+#### Estructura de los logs de auditoría
+
+Cada entrada de log incluye:
+- Usuario que realizó la acción
+- Fecha y hora
+- Tipo de acción
+- Entidad afectada
+- Datos anteriores y nuevos valores
+- Dirección IP
+- User-Agent
+
+#### Consulta de logs
+
+Los administradores pueden consultar los logs de auditoría accediendo directamente a los archivos en `storage/logs/audit/` o implementando un visor de logs mediante herramientas como Laravel Telescope o un dashboard personalizado.
+
 ## Pruebas
 
 El proyecto incluye pruebas unitarias y funcionales que verifican que todas las funcionalidades están trabajando correctamente:
