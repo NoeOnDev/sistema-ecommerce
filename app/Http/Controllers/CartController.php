@@ -14,7 +14,7 @@ class CartController extends Controller
     /**
      * Obtiene o crea el carrito para el usuario actual o sesión
      */
-    private function getCart()
+    public function getCart() // Cambiar de private a public
     {
         // Si el usuario está autenticado, buscar carrito por user_id
         if (Auth::check()) {

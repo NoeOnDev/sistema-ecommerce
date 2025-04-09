@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas públicas
@@ -37,6 +38,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     });
+});
+
+// Proceso de checkout
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout/review', [CheckoutController::class, 'review'])->name('checkout.review');
+    Route::get('/checkout/shipping', [CheckoutController::class, 'shipping'])->name('checkout.shipping');
+    Route::post('/checkout/shipping', [CheckoutController::class, 'processShipping'])->name('checkout.process.shipping');
+    Route::get('/checkout/payment', [CheckoutController::class, 'payment'])->name('checkout.payment');
+    Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.process.payment');
+    Route::get('/checkout/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 });
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
