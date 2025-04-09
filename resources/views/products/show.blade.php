@@ -51,10 +51,14 @@
                         @endif
 
                         <div class="flex space-x-3 mt-6">
-                            <a href="{{ route('products.edit', $product) }}"
-                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                                Editar
-                            </a>
+                            @auth
+                                @if(Auth::user()->isAdmin())
+                                    <a href="{{ route('products.edit', $product) }}"
+                                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                                        Editar
+                                    </a>
+                                @endif
+                            @endauth
                             <a href="{{ route('products.index') }}"
                                 class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Volver

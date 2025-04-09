@@ -34,10 +34,14 @@
         </div>
 
         <div class="flex justify-between mb-4">
-            <a href="{{ route('products.create') }}"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                Crear Producto
-            </a>
+            @auth
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('products.create') }}"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Crear Producto
+                    </a>
+                @endif
+            @endauth
         </div>
 
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -73,17 +77,21 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $product->category->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('products.edit', $product) }}"
-                                        class="text-indigo-600 hover:text-indigo-900 px-2 py-1 rounded bg-indigo-100 hover:bg-indigo-200">Editar</a>
-                                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="text-red-600 hover:text-red-900 px-2 py-1 rounded bg-red-100 hover:bg-red-200"
-                                            onclick="return confirm('¿Estás seguro de eliminar este producto?')">
-                                            Eliminar
-                                        </button>
-                                    </form>
+                                    @auth
+                                        @if(Auth::user()->isAdmin())
+                                            <a href="{{ route('products.edit', $product) }}"
+                                                class="text-indigo-600 hover:text-indigo-900 px-2 py-1 rounded bg-indigo-100 hover:bg-indigo-200">Editar</a>
+                                            <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-red-600 hover:text-red-900 px-2 py-1 rounded bg-red-100 hover:bg-red-200"
+                                                    onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endauth
                                     <a href="{{ route('products.show', $product) }}"
                                         class="text-blue-600 hover:text-blue-900 px-2 py-1 rounded bg-blue-100 hover:bg-blue-200">Ver</a>
                                 </div>
