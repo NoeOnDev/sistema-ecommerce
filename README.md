@@ -92,6 +92,38 @@ El proyecto utiliza los siguientes modelos:
 - Búsqueda por nombre de producto
 - Filtrado por categoría
 
+## Autenticación y Roles
+
+El sistema cuenta con autenticación completa mediante Laravel Breeze:
+
+- **Registro de usuarios**: Los usuarios pueden registrarse proporcionando nombre, email y contraseña.
+- **Verificación de email**: Los nuevos usuarios deben verificar su email para acceder a funcionalidades protegidas.
+- **Roles de usuario**: El sistema implementa dos roles:
+  - **Admin**: Acceso completo a todas las funcionalidades del sistema.
+  - **Cliente**: Acceso limitado a visualización de productos y gestión de su perfil.
+
+### Sistema de permisos
+
+El control de acceso se implementa mediante middleware:
+
+- El middleware `auth` protege rutas que requieren autenticación.
+- El middleware `verified` asegura que el usuario haya verificado su email.
+- El middleware `role:admin` restringe el acceso solo a administradores.
+
+### Usuarios predeterminados
+
+El sistema se instala con un usuario administrador predefinido:
+
+- Email: admin@example.com
+- Contraseña: password
+
+Para crear más administradores, se puede modificar un usuario existente en la base de datos o usar el siguiente comando:
+
+```bash
+php artisan tinker
+User::where('email', 'correo@ejemplo.com')->update(['role' => 'admin'])
+```
+
 ## Pruebas
 
 El proyecto incluye pruebas unitarias y funcionales que verifican que todas las funcionalidades están trabajando correctamente:

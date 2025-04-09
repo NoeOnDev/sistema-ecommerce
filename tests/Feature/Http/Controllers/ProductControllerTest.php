@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -58,7 +59,10 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_display_create_form()
     {
-        $response = $this->get(route('products.create'));
+        // Crear y autenticar un usuario admin
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->actingAs($admin)->get(route('products.create'));
 
         $response->assertStatus(200);
         $response->assertSee('Crear Producto');
@@ -67,6 +71,9 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_store_a_product()
     {
+        // Crear y autenticar un usuario admin
+        $admin = User::factory()->create(['role' => 'admin']);
+
         Storage::fake('public');
 
         $category = Category::factory()->create();
@@ -86,7 +93,7 @@ class ProductControllerTest extends TestCase
             $data['image'] = UploadedFile::fake()->image('product.jpg');
         }
 
-        $response = $this->post(route('products.store'), $data);
+        $response = $this->actingAs($admin)->post(route('products.store'), $data);
 
         $product = Product::where('name', 'New Test Product')->first();
 
@@ -118,9 +125,12 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_display_edit_form()
     {
+        // Crear y autenticar un usuario admin
+        $admin = User::factory()->create(['role' => 'admin']);
+
         $product = Product::factory()->create();
 
-        $response = $this->get(route('products.edit', $product));
+        $response = $this->actingAs($admin)->get(route('products.edit', $product));
 
         $response->assertStatus(200);
         $response->assertSee('Editar Producto');
@@ -130,6 +140,9 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_update_a_product()
     {
+        // Crear y autenticar un usuario admin
+        $admin = User::factory()->create(['role' => 'admin']);
+
         $product = Product::factory()->create();
         $category = Category::factory()->create();
 
@@ -141,7 +154,7 @@ class ProductControllerTest extends TestCase
             'category_id' => $category->id,
         ];
 
-        $response = $this->put(route('products.update', $product), $data);
+        $response = $this->actingAs($admin)->put(route('products.update', $product), $data);
 
         $product->refresh();
 
@@ -157,9 +170,12 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_product()
     {
+        // Crear y autenticar un usuario admin
+        $admin = User::factory()->create(['role' => 'admin']);
+
         $product = Product::factory()->create();
 
-        $response = $this->delete(route('products.destroy', $product));
+        $response = $this->actingAs($admin)->delete(route('products.destroy', $product));
 
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
         $response->assertRedirect(route('products.index'));

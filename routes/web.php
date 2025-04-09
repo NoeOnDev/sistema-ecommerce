@@ -10,7 +10,6 @@ Route::get('/', function () {
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Rutas que requieren autenticación
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -31,5 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     });
 });
+
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 require __DIR__.'/auth.php';
