@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -137,6 +138,9 @@ class CheckoutController extends Controller
             $order->payment_status = 'pending';
             $order->save();
 
+            // Datos para auditoría
+            $orderItems = [];
+
             // Crear los items de la orden
             foreach ($cart->items as $item) {
                 $orderItem = new OrderItem([
@@ -149,10 +153,29 @@ class CheckoutController extends Controller
 
                 $order->items()->save($orderItem);
 
+                // Agregar al log de auditoría
+                $orderItems[] = [
+                    'producto_id' => $item->product_id,
+                    'nombre' => $item->product->name,
+                    'cantidad' => $item->quantity,
+                    'precio' => $item->price,
+                    'subtotal' => $item->subtotal
+                ];
+
                 // Actualizar el stock del producto
                 $product = $item->product;
+                $oldStock = $product->stock;
                 $product->stock -= $item->quantity;
                 $product->save();
+
+                // Auditar cambio de stock por venta
+                AuditService::log(
+                    'reducción de stock por venta',
+                    'producto',
+                    ['stock_anterior' => $oldStock],
+                    ['stock_nuevo' => $product->stock],
+                    $product->id
+                );
             }
 
             // Guardar la dirección
@@ -170,6 +193,21 @@ class CheckoutController extends Controller
                 $order->status = 'processing';
                 $order->save();
 
+                // Auditar creación de orden
+                AuditService::log(
+                    'creación',
+                    'orden',
+                    null,
+                    [
+                        'orden_id' => $order->id,
+                        'orden_numero' => $order->order_number,
+                        'total' => $order->total,
+                        'método_pago' => $order->payment_method,
+                        'productos' => $orderItems
+                    ],
+                    $order->id
+                );
+
                 // Vaciar el carrito
                 $cart->items()->delete();
 
@@ -184,6 +222,16 @@ class CheckoutController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
+
+            // Auditar error en el proceso de checkout
+            AuditService::log(
+                'error',
+                'checkout',
+                null,
+                ['mensaje_error' => $e->getMessage()],
+                null
+            );
+
             return redirect()->back()->with('error', 'Error al procesar el pedido: ' . $e->getMessage());
         }
     }

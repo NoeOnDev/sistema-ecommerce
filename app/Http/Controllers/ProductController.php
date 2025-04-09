@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -54,7 +55,7 @@ class ProductController extends Controller
         // Generar slug
         $validated['slug'] = Str::slug($validated['name']);
 
-        // Subir imagen
+        // Subir imagen si existe
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
             $validated['image'] = $path;
@@ -62,10 +63,25 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
 
-        // Asignar tags
+        // Sincronizar etiquetas
         if ($request->has('tags')) {
-            $product->tags()->attach($request->tags);
+            $product->tags()->sync($request->tags);
         }
+
+        // Registrar creación de producto en auditoría
+        AuditService::log(
+            'creación',
+            'producto',
+            null,
+            [
+                'id' => $product->id,
+                'nombre' => $product->name,
+                'precio' => $product->price,
+                'stock' => $product->stock,
+                'categoría' => $product->category_id
+            ],
+            $product->id
+        );
 
         return redirect()->route('products.index')
             ->with('success', 'Producto creado correctamente');
@@ -96,6 +112,14 @@ class ProductController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
+        // Capturar datos antiguos para auditoría
+        $oldData = [
+            'nombre' => $product->name,
+            'precio' => $product->price,
+            'stock' => $product->stock,
+            'categoría' => $product->category_id
+        ];
+
         // Generar slug
         $validated['slug'] = Str::slug($validated['name']);
 
@@ -119,18 +143,74 @@ class ProductController extends Controller
             $product->tags()->detach();
         }
 
+        // Datos nuevos para auditoría
+        $newData = [
+            'nombre' => $product->name,
+            'precio' => $product->price,
+            'stock' => $product->stock,
+            'categoría' => $product->category_id
+        ];
+
+        // Auditar el cambio de precio si hubo modificación
+        if ($oldData['precio'] != $newData['precio']) {
+            AuditService::log(
+                'cambio de precio',
+                'producto',
+                ['precio_anterior' => $oldData['precio']],
+                ['precio_nuevo' => $newData['precio']],
+                $product->id
+            );
+        }
+
+        // Auditar el cambio de stock si hubo modificación
+        if ($oldData['stock'] != $newData['stock']) {
+            AuditService::log(
+                'cambio de stock',
+                'producto',
+                ['stock_anterior' => $oldData['stock']],
+                ['stock_nuevo' => $newData['stock']],
+                $product->id
+            );
+        }
+
+        // Auditar cambio general del producto
+        AuditService::log(
+            'actualización',
+            'producto',
+            $oldData,
+            $newData,
+            $product->id
+        );
+
         return redirect()->route('products.index')
             ->with('success', 'Producto actualizado correctamente');
     }
 
     public function destroy(Product $product)
     {
+        // Capturar datos para auditoría
+        $productData = [
+            'id' => $product->id,
+            'nombre' => $product->name,
+            'precio' => $product->price,
+            'stock' => $product->stock
+        ];
+
         // Eliminar imagen si existe
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
 
         $product->delete();
+
+        // Auditar eliminación del producto
+        AuditService::log(
+            'eliminación',
+            'producto',
+            $productData,
+            null,
+            $product->id
+        );
 
         return redirect()->route('products.index')
             ->with('success', 'Producto eliminado correctamente');
