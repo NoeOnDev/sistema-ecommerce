@@ -23,7 +23,7 @@ Este proyecto implementa un sistema de gestión de productos para e-commerce uti
 1. Clonar el repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/sistema-ecommerce.git
+   git clone https://github.com/NoeOnDev/sistema-ecommerce.git
    cd sistema-ecommerce
    ```
 
@@ -277,7 +277,27 @@ brew install php@8.1  # Normalmente GD viene incluido
 
 ## Capturas de Pantalla
 
-(Aquí puedes incluir algunas capturas de la aplicación)
+### Página de Inicio
+![Página de Inicio](public/images/landing.png "Página de Inicio")
+
+### Lista de productos
+![Lista de productos](public/images/index_products.png "Lista de productos")
+
+### Mostrar producto
+![Mostrar producto](public/images/show_produc.png "Mostrar producto")
+
+### Carrito de compras
+![Carrito de compras](public/images/step_1_checkout.png "Carrito de compras")
+
+### Paso 2 de pasarela de pago
+![Paso 2 de pasarela de pago](public/images/step_2_checkout.png "Paso 2 de pasarela de pago")
+
+### Paso 3 de pasarela de pago
+![Paso 3 de pasarela de pago](public/images/step_3_checkout.png "Paso 3 de pasarela de pago")
+
+### Compra éxitosa
+![Compra éxitosa](public/images/end_checkout.png "Compra éxitosa")
+
 
 ## Licencia
 
