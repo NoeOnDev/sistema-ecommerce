@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Smartphone Galaxy S23',
                 'description' => 'El último smartphone de Samsung con cámara avanzada y batería de larga duración',
-                'price' => 18999.00, // Precio actualizado a MXN realista
+                'price' => 18999.00,
                 'stock' => 25,
                 'category_id' => $electronica->id,
                 'tags' => [$nuevo->id, $destacado->id],
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Smartwatch Pro',
                 'description' => 'Reloj inteligente con monitorización de salud y notificaciones',
-                'price' => 4999.00, // Precio actualizado a MXN realista
+                'price' => 4999.00,
                 'stock' => 30,
                 'category_id' => $electronica->id,
                 'tags' => [$nuevo->id, $oferta->id],
@@ -59,7 +59,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Zapatillas Running Elite',
                 'description' => 'Zapatillas deportivas con tecnología de amortiguación avanzada',
-                'price' => 1899.00, // Precio actualizado a MXN realista
+                'price' => 1899.00,
                 'stock' => 45,
                 'category_id' => $deportes->id,
                 'tags' => [$destacado->id, $bestseller->id],
@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Chamarra Impermeable',
                 'description' => 'Chamarra resistente al agua ideal para actividades al aire libre',
-                'price' => 1299.00, // Precio actualizado a MXN realista
+                'price' => 1299.00,
                 'stock' => 20,
                 'category_id' => $ropa->id,
                 'tags' => [$oferta->id],
@@ -79,7 +79,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Cafetera Automática',
                 'description' => 'Cafetera con timer programable y múltiples funciones',
-                'price' => 1250.00, // Precio actualizado a MXN realista
+                'price' => 1250.00,
                 'stock' => 15,
                 'category_id' => $hogar->id,
                 'tags' => [$bestseller->id],
