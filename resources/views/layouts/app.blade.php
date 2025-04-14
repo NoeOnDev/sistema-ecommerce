@@ -22,8 +22,8 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <a href="{{ route('dashboard') }}" class="font-bold text-xl">
-                                    {{ config('app.name', 'Laravel') }}
+                                <a href="{{ route('home') }}" class="flex items-center">
+                                    <span class="text-xl font-bold text-indigo-600">E-Commerce</span>
                                 </a>
                             </div>
 

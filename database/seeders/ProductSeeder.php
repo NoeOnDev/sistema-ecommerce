@@ -87,9 +87,9 @@ class ProductSeeder extends Seeder
                 'image_url' => 'https://images.unsplash.com/photo-1637029436347-e33bf98a5412?q=80&w=500'
             ],
             [
-                'name' => 'Set de Sartenes Antiadherentes',
+                'name' => 'Set de Sartenes',
                 'description' => 'Juego de 3 sartenes con recubrimiento antiadherente de alta calidad',
-                'price' => 1499.00, // Precio actualizado a MXN realista
+                'price' => 1499.00,
                 'stock' => 10,
                 'category_id' => $hogar->id,
                 'tags' => [$premium->id],
@@ -99,7 +99,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Crema Facial Hidratante',
                 'description' => 'Crema facial con ácido hialurónico para una hidratación profunda',
-                'price' => 649.00, // Precio actualizado a MXN realista
+                'price' => 649.00,
                 'stock' => 50,
                 'category_id' => $belleza->id,
                 'tags' => [$nuevo->id, $premium->id],
@@ -109,7 +109,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Auriculares Bluetooth',
                 'description' => 'Auriculares inalámbricos con cancelación de ruido y alta fidelidad',
-                'price' => 2499.00, // Precio actualizado a MXN realista
+                'price' => 2499.00,
                 'stock' => 35,
                 'category_id' => $electronica->id,
                 'tags' => [$destacado->id, $bestseller->id],
@@ -119,7 +119,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Mochila Impermeable',
                 'description' => 'Mochila con compartimentos para laptop y materiales resistentes al agua',
-                'price' => 899.00, // Precio actualizado a MXN realista
+                'price' => 899.00,
                 'stock' => 40,
                 'category_id' => $deportes->id,
                 'tags' => [$oferta->id],
@@ -129,7 +129,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Tabla de Cortar de Bambú',
                 'description' => 'Tabla de cocina ecológica hecha de bambú sostenible',
-                'price' => 399.00, // Precio actualizado a MXN realista
+                'price' => 399.00,
                 'stock' => 25,
                 'category_id' => $hogar->id,
                 'tags' => [$nuevo->id],
@@ -139,7 +139,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Vestido Casual',
                 'description' => 'Vestido elegante para ocasiones casuales',
-                'price' => 849.00, // Precio actualizado a MXN realista
+                'price' => 849.00,
                 'stock' => 15,
                 'category_id' => $ropa->id,
                 'tags' => [$nuevo->id, $destacado->id],
@@ -149,7 +149,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Perfume Esencia',
                 'description' => 'Fragancia exclusiva con notas cítricas y amaderadas',
-                'price' => 1349.00, // Precio actualizado a MXN realista
+                'price' => 1349.00,
                 'stock' => 20,
                 'category_id' => $belleza->id,
                 'tags' => [$premium->id, $bestseller->id],
@@ -159,26 +159,23 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $productData) {
-            // Descargar imagen y guardarla
             $imagePath = $this->downloadAndSaveImage(
                 $productData['image_url'],
                 'products/' . $productData['image_name']
             );
 
-            // Crear el producto (todos los precios en MXN)
             $product = Product::create([
                 'name' => $productData['name'],
                 'description' => $productData['description'],
-                'price' => $productData['price'], // Precio en MXN
+                'price' => $productData['price'],
                 'stock' => $productData['stock'],
                 'image' => $imagePath,
                 'slug' => Str::slug($productData['name']),
                 'category_id' => $productData['category_id'],
                 'active' => true,
-                'currency' => self::CURRENCY, // Agregar moneda si tu modelo lo soporta
+                'currency' => self::CURRENCY,
             ]);
 
-            // Asignar etiquetas
             $product->tags()->attach($productData['tags']);
         }
     }
@@ -189,7 +186,6 @@ class ProductSeeder extends Seeder
     private function downloadAndSaveImage($url, $path)
     {
         try {
-            // Intentamos descargar la imagen
             $contents = file_get_contents($url);
 
             // La guardamos en storage/public/
@@ -197,7 +193,6 @@ class ProductSeeder extends Seeder
 
             return $path;
         } catch (\Exception $e) {
-            // Si falla, retornamos null y no tendrá imagen
             return null;
         }
     }

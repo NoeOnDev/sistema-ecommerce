@@ -4,14 +4,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-// Rutas públicas
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Rutas públicas - Reemplazamos la ruta root por nuestro HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
 
 // Rutas para el carrito de compras
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -22,9 +21,13 @@ Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear
 
 // Rutas que requieren autenticación
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Reemplazamos el dashboard genérico con rutas específicas según el rol
+    Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])
+        ->middleware('role:admin')
+        ->name('admin.dashboard');
+
+    Route::get('/client/dashboard', [HomeController::class, 'clientDashboard'])
+        ->name('client.dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -49,7 +52,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/payment', [CheckoutController::class, 'processPayment'])->name('checkout.process.payment');
     Route::get('/checkout/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
 });
-
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 require __DIR__ . '/auth.php';
