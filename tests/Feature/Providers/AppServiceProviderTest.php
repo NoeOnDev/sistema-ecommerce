@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Providers;
+namespace Tests\Feature\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Tests\TestCase;
