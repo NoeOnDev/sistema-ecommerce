@@ -10,12 +10,33 @@ class ClienteUserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Cliente Demo',
-            'email' => 'cliente@example.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'role' => 'cliente',
-        ]);
+        $clientes = [
+            [
+                'name' => 'Cliente Demo',
+                'email' => 'cliente@example.com',
+            ],
+            [
+                'name' => 'Juan Pérez',
+                'email' => 'juan@example.com',
+            ],
+            [
+                'name' => 'María García',
+                'email' => 'maria@example.com',
+            ],
+            [
+                'name' => 'Carlos López',
+                'email' => 'carlos@example.com',
+            ]
+        ];
+
+        foreach ($clientes as $cliente) {
+            User::create([
+                'name' => $cliente['name'],
+                'email' => $cliente['email'],
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'role' => 'cliente',
+            ]);
+        }
     }
 }
