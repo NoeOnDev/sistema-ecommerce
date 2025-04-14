@@ -28,4 +28,14 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getFormattedPriceAttribute(): string
+    {
+        return 'MX$' . number_format($this->price, 2);
+    }
+
+    public function getFormattedSubtotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->subtotal, 2);
+    }
 }

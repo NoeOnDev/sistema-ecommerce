@@ -55,6 +55,9 @@ class ProductController extends Controller
         // Generar slug
         $validated['slug'] = Str::slug($validated['name']);
 
+        // Establecer moneda
+        $validated['currency'] = 'MXN';
+
         // Subir imagen si existe
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
@@ -111,6 +114,9 @@ class ProductController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ]);
+
+        // Aseguramos que se mantiene la moneda
+        $validated['currency'] = 'MXN';
 
         // Capturar datos antiguos para auditoría
         $oldData = [

@@ -48,4 +48,19 @@ class Order extends Model
 
         return $prefix . $dateCode . '-' . $randomCode;
     }
+
+    public function getFormattedSubtotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->subtotal, 2);
+    }
+
+    public function getFormattedTaxAmountAttribute(): string
+    {
+        return 'MX$' . number_format($this->tax_amount, 2);
+    }
+
+    public function getFormattedTotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->total, 2);
+    }
 }

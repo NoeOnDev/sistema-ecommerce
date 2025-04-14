@@ -35,7 +35,7 @@
 
         <div class="flex justify-between mb-4">
             @auth
-                @if(Auth::user()->isAdmin())
+                @if (Auth::user()->isAdmin())
                     <a href="{{ route('products.create') }}"
                         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         Crear Producto
@@ -72,16 +72,17 @@
                                 <a href="{{ route('products.show', $product) }}"
                                     class="text-indigo-600 hover:text-indigo-900">{{ $product->name }}</a>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">${{ number_format($product->price, 2) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $product->formatted_price }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $product->stock }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $product->category->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex space-x-2">
                                     @auth
-                                        @if(Auth::user()->isAdmin())
+                                        @if (Auth::user()->isAdmin())
                                             <a href="{{ route('products.edit', $product) }}"
                                                 class="text-indigo-600 hover:text-indigo-900 px-2 py-1 rounded bg-indigo-100 hover:bg-indigo-200">Editar</a>
-                                            <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
+                                            <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                                class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

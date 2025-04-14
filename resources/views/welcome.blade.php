@@ -63,7 +63,7 @@
                     <div class="p-6">
                         <h5 class="text-lg font-bold mb-2">{{ $product->name }}</h5>
                         <p class="text-gray-700 mb-2">{{ Str::limit($product->description, 100) }}</p>
-                        <p class="text-gray-800 font-semibold mb-4">Precio: ${{ number_format($product->price, 2) }}</p>
+                        <p class="text-gray-800 font-semibold mb-4">Precio: {{ $product->formatted_price }}</p>
                         <a href="{{ route('products.show', $product) }}"
                             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Ver detalles

@@ -19,7 +19,8 @@ class Product extends Model
         'image',
         'slug',
         'category_id',
-        'active'
+        'active',
+        'currency',
     ];
 
     public function category(): BelongsTo
@@ -30,5 +31,10 @@ class Product extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return 'MX$' . number_format($this->price, 2);
     }
 }

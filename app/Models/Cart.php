@@ -56,6 +56,30 @@ class Cart extends Model
     }
 
     /**
+     * Formatea el subtotal con moneda MXN
+     */
+    public function getFormattedSubtotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->subtotal, 2);
+    }
+
+    /**
+     * Formatea el impuesto con moneda MXN
+     */
+    public function getFormattedTaxAmountAttribute(): string
+    {
+        return 'MX$' . number_format($this->tax_amount, 2);
+    }
+
+    /**
+     * Formatea el total con moneda MXN
+     */
+    public function getFormattedTotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->total, 2);
+    }
+
+    /**
      * Obtiene el número total de ítems en el carrito
      */
     public function getTotalItemsAttribute(): int

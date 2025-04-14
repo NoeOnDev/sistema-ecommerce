@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
+    // Definir constante para la moneda
+    private const CURRENCY = 'MXN';
+
     public function run(): void
     {
         // Aseguramos que existe el directorio para las imágenes
@@ -31,12 +34,12 @@ class ProductSeeder extends Seeder
         $bestseller = Tag::where('name', 'Bestseller')->first();
         $premium = Tag::where('name', 'Premium')->first();
 
-        // Lista de productos
+        // Lista de productos con precios realistas en Pesos Mexicanos (MXN)
         $products = [
             [
                 'name' => 'Smartphone Galaxy S23',
                 'description' => 'El último smartphone de Samsung con cámara avanzada y batería de larga duración',
-                'price' => 899.99,
+                'price' => 18999.00, // Precio actualizado a MXN realista
                 'stock' => 25,
                 'category_id' => $electronica->id,
                 'tags' => [$nuevo->id, $destacado->id],
@@ -46,7 +49,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Smartwatch Pro',
                 'description' => 'Reloj inteligente con monitorización de salud y notificaciones',
-                'price' => 249.99,
+                'price' => 4999.00, // Precio actualizado a MXN realista
                 'stock' => 30,
                 'category_id' => $electronica->id,
                 'tags' => [$nuevo->id, $oferta->id],
@@ -56,7 +59,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Zapatillas Running Elite',
                 'description' => 'Zapatillas deportivas con tecnología de amortiguación avanzada',
-                'price' => 129.99,
+                'price' => 1899.00, // Precio actualizado a MXN realista
                 'stock' => 45,
                 'category_id' => $deportes->id,
                 'tags' => [$destacado->id, $bestseller->id],
@@ -66,7 +69,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Chamarra Impermeable',
                 'description' => 'Chamarra resistente al agua ideal para actividades al aire libre',
-                'price' => 89.99,
+                'price' => 1299.00, // Precio actualizado a MXN realista
                 'stock' => 20,
                 'category_id' => $ropa->id,
                 'tags' => [$oferta->id],
@@ -76,7 +79,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Cafetera Automática',
                 'description' => 'Cafetera con timer programable y múltiples funciones',
-                'price' => 65.50,
+                'price' => 1250.00, // Precio actualizado a MXN realista
                 'stock' => 15,
                 'category_id' => $hogar->id,
                 'tags' => [$bestseller->id],
@@ -86,7 +89,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Set de Sartenes Antiadherentes',
                 'description' => 'Juego de 3 sartenes con recubrimiento antiadherente de alta calidad',
-                'price' => 79.99,
+                'price' => 1499.00, // Precio actualizado a MXN realista
                 'stock' => 10,
                 'category_id' => $hogar->id,
                 'tags' => [$premium->id],
@@ -96,7 +99,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Crema Facial Hidratante',
                 'description' => 'Crema facial con ácido hialurónico para una hidratación profunda',
-                'price' => 34.99,
+                'price' => 649.00, // Precio actualizado a MXN realista
                 'stock' => 50,
                 'category_id' => $belleza->id,
                 'tags' => [$nuevo->id, $premium->id],
@@ -106,7 +109,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Auriculares Bluetooth',
                 'description' => 'Auriculares inalámbricos con cancelación de ruido y alta fidelidad',
-                'price' => 159.99,
+                'price' => 2499.00, // Precio actualizado a MXN realista
                 'stock' => 35,
                 'category_id' => $electronica->id,
                 'tags' => [$destacado->id, $bestseller->id],
@@ -116,7 +119,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Mochila Impermeable',
                 'description' => 'Mochila con compartimentos para laptop y materiales resistentes al agua',
-                'price' => 45.99,
+                'price' => 899.00, // Precio actualizado a MXN realista
                 'stock' => 40,
                 'category_id' => $deportes->id,
                 'tags' => [$oferta->id],
@@ -126,7 +129,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Tabla de Cortar de Bambú',
                 'description' => 'Tabla de cocina ecológica hecha de bambú sostenible',
-                'price' => 24.50,
+                'price' => 399.00, // Precio actualizado a MXN realista
                 'stock' => 25,
                 'category_id' => $hogar->id,
                 'tags' => [$nuevo->id],
@@ -136,7 +139,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Vestido Casual',
                 'description' => 'Vestido elegante para ocasiones casuales',
-                'price' => 59.99,
+                'price' => 849.00, // Precio actualizado a MXN realista
                 'stock' => 15,
                 'category_id' => $ropa->id,
                 'tags' => [$nuevo->id, $destacado->id],
@@ -146,7 +149,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Perfume Esencia',
                 'description' => 'Fragancia exclusiva con notas cítricas y amaderadas',
-                'price' => 85.00,
+                'price' => 1349.00, // Precio actualizado a MXN realista
                 'stock' => 20,
                 'category_id' => $belleza->id,
                 'tags' => [$premium->id, $bestseller->id],
@@ -162,16 +165,17 @@ class ProductSeeder extends Seeder
                 'products/' . $productData['image_name']
             );
 
-            // Crear el producto
+            // Crear el producto (todos los precios en MXN)
             $product = Product::create([
                 'name' => $productData['name'],
                 'description' => $productData['description'],
-                'price' => $productData['price'],
+                'price' => $productData['price'], // Precio en MXN
                 'stock' => $productData['stock'],
                 'image' => $imagePath,
                 'slug' => Str::slug($productData['name']),
                 'category_id' => $productData['category_id'],
                 'active' => true,
+                'currency' => self::CURRENCY, // Agregar moneda si tu modelo lo soporta
             ]);
 
             // Asignar etiquetas

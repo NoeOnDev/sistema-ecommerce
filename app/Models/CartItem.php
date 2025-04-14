@@ -35,4 +35,20 @@ class CartItem extends Model
     {
         return $this->price * $this->quantity;
     }
+
+    /**
+     * Formatea el precio con el símbolo de moneda MXN
+     */
+    public function getFormattedPriceAttribute(): string
+    {
+        return 'MX$' . number_format($this->price, 2);
+    }
+
+    /**
+     * Formatea el subtotal con el símbolo de moneda MXN
+     */
+    public function getFormattedSubtotalAttribute(): string
+    {
+        return 'MX$' . number_format($this->subtotal, 2);
+    }
 }
