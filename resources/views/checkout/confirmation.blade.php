@@ -97,18 +97,7 @@
             </div>
 
             <div class="mt-4">
-                <div class="flex justify-between mb-2">
-                    <span class="font-medium">Subtotal:</span>
-                    <span>{{ $order->formatted_subtotal }}</span>
-                </div>
-                <div class="flex justify-between mb-2">
-                    <span class="font-medium">Impuestos:</span>
-                    <span>{{ $order->formatted_tax_amount }}</span>
-                </div>
-                <div class="flex justify-between text-lg font-bold">
-                    <span>Total:</span>
-                    <span>{{ $order->formatted_total }}</span>
-                </div>
+                <x-order-summary :item="$order" :show-tax-rate="false" />
             </div>
 
             <div class="mt-8">

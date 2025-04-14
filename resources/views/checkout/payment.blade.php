@@ -151,18 +151,7 @@
                     Tel: {{ $address['phone'] }}
                 </address>
             </div>
-            <div class="flex justify-between mb-2">
-                <span class="font-medium">Subtotal:</span>
-                <span>{{ $cart->formatted_subtotal }}</span>
-            </div>
-            <div class="flex justify-between mb-2">
-                <span class="font-medium">Impuestos ({{ $cart->tax_rate }}%):</span>
-                <span>{{ $cart->formatted_tax_amount }}</span>
-            </div>
-            <div class="flex justify-between text-lg font-bold">
-                <span>Total:</span>
-                <span>{{ $cart->formatted_total }}</span>
-            </div>
+            <x-order-summary :item="$cart" />
         </div>
     </div>
 
